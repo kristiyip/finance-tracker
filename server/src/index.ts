@@ -1,16 +1,15 @@
-// PWD: kLUVz8XvaC3DJ8f8
-// username: kristiyip
 import express, { Express } from 'express';
 import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
 import financialRecordRouter from './routes/financial-records';
+import cors from 'cors';
 
 dotenv.config()
 const app: Express = express();
 const port = process.env.PORT || 3001;
 
 app.use(express.json());
-
+app.use(cors())
 const mongoURI: string = process.env.MONGOURI || ""
 
 mongoose
