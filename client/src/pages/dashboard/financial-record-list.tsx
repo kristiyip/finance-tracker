@@ -34,51 +34,57 @@ const EditableCell: React.FC<EditableCellProps> = ({value: initialValue, row, co
 }
 
 export const FinancialRecordList = () => {
-  const { records } = useFinancialRecords();
+  const { records, updateRecord, deleteRecord } = useFinancialRecords();
+
+  const updateCellRecord = (rowIndex: number, columnId: string, value: any) => {
+    const id = records[rowIndex]._id;
+    updateRecord(id ?? "", {...records[rowIndex], [columnId]: value})
+  }
+
   const columns: Array<Column<FinancialRecord>> = useMemo(() => [
     {
       Header: "Description",
       accessor: "description",
       Cell: (props: any) => (
-        <EditableCell {...props} updateRecord={() => null} editable={true} />
+        <EditableCell {...props} updateRecord={updateCellRecord} editable={true} />
       )
     },
     {
       Header: "Amount",
       accessor: "amount",
       Cell: (props: any) => (
-        <EditableCell {...props} updateRecord={() => null} editable={true} />
+        <EditableCell {...props} updateRecord={updateCellRecord} editable={true} />
       )
     },
     {
       Header: "Category",
       accessor: "category",
       Cell: (props: any) => (
-        <EditableCell {...props} updateRecord={() => null} editable={true} />
+        <EditableCell {...props} updateRecord={updateCellRecord} editable={true} />
       )
     },
     {
       Header: "Payment Method",
       accessor: "paymentMethod",
       Cell: (props: any) => (
-        <EditableCell {...props} updateRecord={() => null} editable={true} />
+        <EditableCell {...props} updateRecord={updateCellRecord} editable={true} />
       )
     },
     {
       Header: "Date",
       accessor: "date",
       Cell: (props: any) => (
-        <EditableCell {...props} updateRecord={() => null} editable={false} />
+        <EditableCell {...props} updateRecord={updateCellRecord} editable={false} />
       )
     },
     {
       Header: "Delete",
       id: "delete",
       Cell: ({row}) => (
-        <button onClick={() => null}>Delete</button>
+        <button onClick={() => deleteRecord(row.original._id ?? "")}>Delete</button>
       )
     }
-  ], [])
+  ], [records])
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
     columns,

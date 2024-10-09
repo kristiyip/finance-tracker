@@ -1,15 +1,27 @@
 import { useUser } from "@clerk/clerk-react";
 import { FinancialRecordForm } from "./financial-record-form";
 import { FinancialRecordList } from "./financial-record-list";
+import { useFinancialRecords } from "../../contexts/financial-record-context";
+import { useMemo } from "react";
 
 export const Dashboard = (): React.ReactElement => {
   const { user } = useUser();
+  const { records } = useFinancialRecords();
 
-  console.log(user)
+  const totalMonthly = useMemo(() => {
+    let totalAmount = 0;
+    records.forEach((record) => {
+      totalAmount += record.amount
+    })
+
+    return totalAmount;
+  }, [records]);
+
   return (
     <div>
       <h1>Welcome {user?.firstName ? user.firstName : user?.username}! Here are Your Finances: </h1>
       <FinancialRecordForm />
+      <div>Total Monthly: {totalMonthly}</div>
       <FinancialRecordList />
     </div>
   )

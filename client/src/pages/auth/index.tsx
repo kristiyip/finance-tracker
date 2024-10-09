@@ -1,10 +1,10 @@
 import { 
-  SignedIn, 
+  SignedIn,
   SignedOut, 
   SignInButton, 
-  SignUpButton, 
-  UserButton 
+  SignUpButton
 } from "@clerk/clerk-react";
+import { Navigate } from "react-router-dom";
 
 export const Auth = (): React.ReactElement => {
   return (
@@ -14,7 +14,7 @@ export const Auth = (): React.ReactElement => {
         <SignInButton mode="modal" />
       </SignedOut>
       <SignedIn>
-        <UserButton />
+        <Navigate to="/" />
       </SignedIn>
     </div>
   )
